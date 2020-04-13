@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="todo_data")
+@Table(name="todoTable")
 public class Todo {
 
 		@Id
@@ -27,13 +31,19 @@ public class Todo {
 		@Column(name="title")
 		private String title;
 		
+		@Column(name="description")
+		private String description;
+		
 		@Column(name="completed")
 		private boolean completed;
 		
 		@Column(name="deadline")
+		@Temporal(value = TemporalType.TIMESTAMP)
+		@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 		private Date deadline;
 		
 		@Column(name="added")
+		@Temporal(value = TemporalType.TIMESTAMP)
 		private Date added;
 
 		public int getId() {
@@ -52,6 +62,14 @@ public class Todo {
 			this.title = title;
 		}
 
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
 		public boolean isCompleted() {
 			return completed;
 		}
@@ -60,14 +78,12 @@ public class Todo {
 			this.completed = completed;
 		}
 
-
-
-		public Date getTimeToComplete() {
+		public Date getDeadline() {
 			return deadline;
 		}
 
-		public void setTimeToComplete(Date timeToComplete) {
-			this.deadline = timeToComplete;
+		public void setDeadline(Date deadline) {
+			this.deadline = deadline;
 		}
 
 		public Date getAdded() {
@@ -80,9 +96,11 @@ public class Todo {
 
 		@Override
 		public String toString() {
-			return "Todo [id=" + id + ", title=" + title + ", completed=" + completed + ", timeToComplete="
-					+ deadline + ", added=" + added + "]";
+			return "Todo [id=" + id + ", title=" + title + ", description=" + description + ", completed=" + completed
+					+ ", deadline=" + deadline + ", added=" + added + "]";
 		}
+		
+		
 
 		
 

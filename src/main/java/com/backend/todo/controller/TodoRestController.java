@@ -1,5 +1,6 @@
 package com.backend.todo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public class TodoRestController {
 	@PostMapping("/todos")
 	public Todo addTodo(@RequestBody Todo theTodo) {
 		theTodo.setId(0);
+		Date now = new Date();
+		theTodo.setAdded(now);
+		theTodo.setCompleted(false);
 		todoService.save(theTodo);
 		return theTodo;
 	}
